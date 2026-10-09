@@ -1,0 +1,4 @@
+import type { Customer, CustomerInput } from './types';
+const BASE = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+async function request<T>(path: string, options?: RequestInit): Promise<T> { const response = await fetch(`${BASE}${path}`, { headers: { 'Content-Type': 'application/json' }, ...options }); if (!response.ok) throw new Error((await response.json()).message || 'Something went wrong'); return response.status === 204 ? undefined as T : response.json(); }
+export const api = { list: () => request<Customer[]>('/customers'), create: (data: CustomerInput) => request<Customer>('/customers', { method: 'POST', body: JSON.stringify(data) }), update: (id: string, data: Partial<CustomerInput>) => request<Customer>(`/customers/${id}`, { method: 'PATCH', body: JSON.stringify(data) }), remove: (id: string) => request<void>(`/customers/${id}`, { method: 'DELETE' }) };
