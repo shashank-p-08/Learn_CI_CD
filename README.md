@@ -29,7 +29,7 @@ Examples:
 - Local development: `http://localhost:3000/api`
 - Render: `https://your-api.onrender.com/api`
 - Azure App Service: `https://your-api.azurewebsites.net/api`
-- Cloudflare Worker: `https://your-api.workers.dev/api`
+- Cloudflare Worker: `https://vrocknroll087.workers.dev/api`
 
 After deploying the API, add it in GitHub under **Settings → Secrets and variables → Actions → Variables → New repository variable** with name `VITE_API_URL`. Vite embeds this value during the frontend build, so deploy the frontend again after changing it. The API must also allow requests from your Cloudflare Pages domain through CORS.
 
