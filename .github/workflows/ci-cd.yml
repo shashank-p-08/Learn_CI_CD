@@ -109,6 +109,6 @@ jobs:
       - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3
         with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: 811168914477ae316b7a1a6ccc02c3
+          
+          accountId: 811168914477ae316b7a1a6ccc02c359
           command: pages deploy deploy-artifacts --project-name learn-ci-cd --branch ${{ github.ref_name }}
