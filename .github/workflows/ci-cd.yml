@@ -13,6 +13,7 @@ on:
 
 permissions:
   contents: read
+  pull-requests: write
 
 jobs:
   build:
@@ -22,6 +23,11 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: MegaLinter
+        uses: oxsecurity/megalinter@v10.1.0
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
@@ -34,6 +40,19 @@ jobs:
 
       - name: Build backend and frontend
         run: npm run build
+
+      - name: Code Coverage Advance
+        if: hashFiles('coverage/cobertura.xml') != ''
+        uses: ZeroWiggliness/CodeCoverageAdv@v1.2.0
+        with:
+          cobertura-file: coverage/cobertura.xml
+          main-branch: main
+          current-branch: ${{ github.head_ref || github.ref_name }}
+          coverage-threshold: '50 75'
+          coverage-changes-threshold: '50 75'
+          github-token: ${{ github.token }}
+          file-filters: '**/*.{ts,tsx,js,jsx},!**/*.test.*,!**/*.spec.*'
+          fail-action: 'true'
 
       - name: Deploy frontend to Cloudflare Pages
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
